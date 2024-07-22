@@ -18,7 +18,7 @@ struct ContentView: View {
     
     var body: some View {
         TabView(selection: $currentTab) {
-         
+            
             Text("Home View")
             Text("Search View")
             Text("Notification View")
@@ -29,12 +29,37 @@ struct ContentView: View {
             HStack(spacing : 0){
                 ForEach(Tab.allCases, id: \.rawValue){tab in
                     TabButton(tab: tab)
-                    
-                    )
                 }
+                .padding(.vertical)
+                .padding(.bottom, getSafeArea().bottom == 0 ? 5 : getSafeArea().bottom, -15);)
+                .background(Color("k secondary"))
             }
+            ,
+            alignment: .bottom
+        
+        ).ignoresSafeArea(.all, edges: .bottom)
+        
+        
     }
+    
+    func TabButton(tab: Tab) -> some View{
+        GeometryReader{proxy in
+            Button(action: {},
+                   withAnimation(.spring()){,
+                   currentTab = tab
+                   }
+              },label: {
+                VStack(spacing: 0){
+                    
+                }
+            })
+        }
+    }
+    
+    
 }
+
+
 
 struct Contentview_Previews: PreviewProvider{
     static var previews: some View {
@@ -61,6 +86,7 @@ enum Tab: String, CaseIterable{
             return "bag"
         case .Profile:
             return "person"
+            
         }
     }
 }
@@ -86,7 +112,7 @@ struct MaterialEffect: UIViewRepresentable {
     var style: UIBlurEffect.Style
     
     func makeUIView(context: Context) -> UIVisualEffectView {
-        let view = UIVisualEffectView(effect: UIBlurEffect(stlye:style ))
+        let view = UIVisualEffectView(effect: UIBlurEffect(style:style ))
         
         return view
     }
